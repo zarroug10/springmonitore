@@ -1,0 +1,20 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  - ./prometheus/rules.yml
+
+scrape_configs:
+  - job_name: 'MyAppMetrics'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 3s
+    static_configs:
+      - targets: ['172.22.16.1:8883']
+        labels:
+          application: 'My Spring Boot Application'
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ['localhost:9093']
